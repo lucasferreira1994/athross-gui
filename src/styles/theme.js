@@ -9,6 +9,7 @@ const commonColors = {
   successGreen: "#28a745",
   errorRed: "#dc3545",
   warningYellow: "#ffc107",
+  loginBackground: "#005564", // 2148c0 051d64 #040A24
 };
 
 // --- Tema Claro (Light Theme) ---
@@ -43,6 +44,8 @@ export const lightTheme = {
     error: commonColors.errorRed,
     warning: commonColors.warningYellow,
     info: commonColors.primaryBlue,
+
+    loginBackground: commonColors.loginBackground,
   },
 };
 
@@ -78,5 +81,7 @@ export const darkTheme = {
     error: "#EF5350", // Tons de vermelho mais suaves
     warning: "#FFEB3B", // Tons de amarelo mais suaves
     info: "#2196F3",
+
+    loginBackground: commonColors.loginBackground,
   },
 };

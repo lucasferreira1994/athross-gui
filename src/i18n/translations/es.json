@@ -1,3 +1,6 @@
 {
-  "translation": {}
+  "translation": {
+    "username": "Nombre de usuario",
+    "password": "Contraseña"
+  }
 }
