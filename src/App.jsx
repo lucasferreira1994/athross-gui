@@ -5,6 +5,7 @@ import { createTheme, ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./styles/theme";
 import LoginPage from "./pages/Login/LoginPage";
+import DocumentsPage from "./pages/Documents/DocumentsPage";
 
 function App() {
   const [theme, setTheme] = useState("light");
@@ -21,7 +22,11 @@ function App() {
         <BrowserRouter>
           <GlobalStyle />
           <Routes>
-            <Route path="/" element={<LoginPage setTheme={setTheme} />} />
+            <Route path="/" element={<LoginPage />} />
+            <Route
+              path="/documents"
+              element={<DocumentsPage setTheme={setTheme} />}
+            />
           </Routes>
         </BrowserRouter>
       </MuiThemeProvider>

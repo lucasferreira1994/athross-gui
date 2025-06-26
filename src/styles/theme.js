@@ -17,7 +17,7 @@ export const lightTheme = {
   mode: "light",
   colors: {
     // Fundo
-    background: commonColors.white,
+    background: "#e7e9e8",
     surface: commonColors.grayLight, // Para cards, modais, etc.
 
     // Texto
@@ -54,7 +54,7 @@ export const darkTheme = {
   mode: "dark",
   colors: {
     // Fundo
-    background: "#121212", // Fundo bem escuro
+    background: "#121212", // Fundo bem escuro "#1a1a1a"
     surface: "#1E1E1E", // Para cards, modais, etc., um pouco mais claro que o fundo
 
     // Texto

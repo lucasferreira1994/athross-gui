@@ -1,6 +1,18 @@
 {
   "translation": {
-    "username": "Nombre de usuario",
-    "password": "Contraseña"
+    "username": "Usuario",
+    "password": "Contraseña",
+    "theme": "Tema",
+    "language": "Idioma",
+    "lightTheme": "Tema Claro",
+    "darkTheme": "Tema Oscuro",
+    "english": "Inglés",
+    "portuguese": "Portugués",
+    "spanish": "Español",
+    "settings": "Configuración",
+    "ptBR": "Portugués",
+    "en": "Inglés",
+    "es": "Español",
+    "date": "Fecha"
   }
 }

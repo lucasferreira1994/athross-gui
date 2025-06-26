@@ -2,7 +2,6 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
-  /* Aplicando a fonte Inter ao corpo e elementos de UI */
   body {
     font-family: 'Inter', sans-serif;
     line-height: 1.5; /* Altura de linha para melhor legibilidade */
