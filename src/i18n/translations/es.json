@@ -14,6 +14,26 @@
     "en": "Inglés",
     "es": "Español",
     "date": "Fecha",
-    "search": "Buscar"
+    "search": "Buscar",
+    "search.confirmSearch": "Confirmar Búsqueda",
+    "filter": {
+      "type": "Tipo",
+      "order": "Orden",
+      "none": "Ninguno",
+      "category": {
+        "creationDate": "Fecha de Creación",
+        "alphabeticalOrder": "Orden Alfabético"
+      },
+      "orderTypes": {
+        "oldestToNewest": "Más antiguo - Más reciente",
+        "newestToOldest": "Más reciente - Más antiguo",
+        "aToZ": "A - Z",
+        "zToA": "Z - A"
+      }
+    },
+    "advancedFilter": {
+      "tooltip": "Filtro Avanzado",
+      "ariaLabel": "Abrir opciones de filtro avanzado"
+    }
   }
 }

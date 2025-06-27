@@ -139,7 +139,7 @@ export default function FilterArea() {
             ))}
           </Select>
         </FormControl>
-        {/* Botão de Filtro Avançado com Tooltip */}
+        {/* Botão de Filtro Avançado 
         <Tooltip title={t("advancedFilter.tooltip")} arrow placement="bottom">
           <IconButton
             aria-label={t("advancedFilter.ariaLabel")}
@@ -152,9 +152,10 @@ export default function FilterArea() {
             <FilterListIcon sx={{ color: theme.colors.white }} />
           </IconButton>
         </Tooltip>
+        */}
       </SearchBox>
 
-      {/* Select para Ordem com Categorias */}
+      {/* Select para Ordem com Categorias 
       <FormControl
         variant="standard"
         size="small"
@@ -213,6 +214,7 @@ export default function FilterArea() {
           })}
         </Select>
       </FormControl>
+      */}
     </FilterContainer>
   );
 }
