@@ -14,6 +14,26 @@
     "en": "English",
     "es": "Spanish",
     "date": "Date",
-    "search": "Search"
+    "search": "Search",
+    "search.confirmSearch": "Confirm Search",
+    "filter": {
+      "type": "Type",
+      "order": "Order",
+      "none": "None",
+      "category": {
+        "creationDate": "Creation Date",
+        "alphabeticalOrder": "Alphabetical Order"
+      },
+      "orderTypes": {
+        "oldestToNewest": "Oldest to Newest",
+        "newestToOldest": "Newest to Oldest",
+        "aToZ": "A - Z",
+        "zToA": "Z - A"
+      }
+    },
+    "advancedFilter": {
+      "tooltip": "Advanced Filter",
+      "ariaLabel": "Open advanced filter options"
+    }
   }
 }

@@ -46,6 +46,7 @@ export const lightTheme = {
     info: commonColors.primaryBlue,
 
     loginBackground: commonColors.loginBackground,
+    borderBottom: "#0295af",
   },
 };
 
@@ -83,5 +84,6 @@ export const darkTheme = {
     info: "#2196F3",
 
     loginBackground: commonColors.loginBackground,
+    borderBottom: "#0295af",
   },
 };

@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import SettingsIcon from "@mui/icons-material/Settings";
 import Settings from "./Settings";
 import { useTranslation } from "react-i18next";
+import SettingsIcon from "@mui/icons-material/Settings";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import { useNavigate } from "react-router-dom";
 
 export default function Header({ setTheme }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   useEffect(() => {
@@ -29,6 +32,10 @@ export default function Header({ setTheme }) {
 
   const [openConfig, setOpenConfig] = useState(false);
 
+  const logout = () => {
+    navigate("/");
+  };
+
   return (
     <HeaderContainer>
       <UserContent>
@@ -42,6 +49,13 @@ export default function Header({ setTheme }) {
         </div>
       </UserContent>
       <SettingsDiv>
+        <ExitToAppIcon
+          sx={{
+            color: "#ffffff",
+            cursor: "pointer",
+          }}
+          onClick={logout}
+        />
         <SettingsIcon
           sx={{
             color: "#ffffff",
@@ -92,4 +106,5 @@ const UserContent = styled.div`
 const SettingsDiv = styled.div`
   display: flex;
   align-items: center;
+  gap: 10px;
 `;

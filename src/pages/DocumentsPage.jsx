@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import Header from "../../components/header/Header";
-import FilterArea from "../../components/filters/FilterArea";
+import Header from "../components/header/Header";
+import FilterArea from "../components/filters/FilterArea";
 
 export default function DocumentsPage({ setTheme }) {
   return (

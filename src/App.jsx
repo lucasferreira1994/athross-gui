@@ -4,8 +4,8 @@ import { useState } from "react";
 import { createTheme, ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./styles/theme";
-import LoginPage from "./pages/Login/LoginPage";
-import DocumentsPage from "./pages/Documents/DocumentsPage";
+import LoginPage from "./pages/LoginPage";
+import DocumentsPage from "./pages/DocumentsPage";
 
 function App() {
   const [theme, setTheme] = useState("light");
