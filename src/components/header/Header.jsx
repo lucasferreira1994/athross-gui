@@ -33,7 +33,7 @@ export default function Header({ setTheme }) {
     <HeaderContainer>
       <UserContent>
         <div id="user">
-          <p>{t("username")}: Lucas Soares</p>
+          <p>{t("username")}: Admin**</p>
         </div>
         <div id="time">
           <p>
@@ -70,7 +70,7 @@ const HeaderContainer = styled.div`
   top: 0;
   left: 0;
   z-index: 100;
-  padding: 10px 15px;
+  padding: 10px 60px;
 `;
 
 const UserContent = styled.div`

@@ -54,7 +54,7 @@ export const darkTheme = {
   mode: "dark",
   colors: {
     // Fundo
-    background: "#121212", // Fundo bem escuro "#1a1a1a"
+    background: "#0D1117", // Fundo bem escuro "#1a1a1a"
     surface: "#1E1E1E", // Para cards, modais, etc., um pouco mais claro que o fundo
 
     // Texto
