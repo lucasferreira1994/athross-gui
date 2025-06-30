@@ -15,7 +15,7 @@
     "es": "Español",
     "date": "Fecha",
     "search": "Buscar",
-    "search.confirmSearch": "Confirmar Búsqueda",
+    "confirmSearch": "Confirmar Búsqueda",
     "filter": {
       "type": "Tipo",
       "order": "Orden",
@@ -34,6 +34,8 @@
     "advancedFilter": {
       "tooltip": "Filtro Avanzado",
       "ariaLabel": "Abrir opciones de filtro avanzado"
-    }
+    },
+    "item": "item",
+    "items": "items"
   }
 }

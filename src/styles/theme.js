@@ -47,6 +47,19 @@ export const lightTheme = {
 
     loginBackground: commonColors.loginBackground,
     borderBottom: "#0295af",
+
+    documents: {
+      backgroundColor: "#FFFFFF",
+      buttonText: "#3b3b3b",
+      buttonTextSelected: "#FFFFFF",
+      buttonColor: "#303B46",
+
+      title: "#000000",
+      border: "hsl(240 5.9% 90%)", //#1A1A1A
+      secondary: "#6f6f6f",
+      downButton: "#e5e5e5",
+      label: "#000000",
+    },
   },
 };
 
@@ -85,5 +98,18 @@ export const darkTheme = {
 
     loginBackground: commonColors.loginBackground,
     borderBottom: "#0295af",
+
+    documents: {
+      backgroundColor: "#171c24", // 363636
+      buttonText: "#FFFFFF",
+      buttonTextSelected: "#303B46",
+      buttonColor: "#FFFFFF",
+
+      title: "#FFFFFF",
+      border: "#1A1A1A",
+      secondary: "#bdbdbd",
+      downButton: "#1A1A1A",
+      label: "#adadad",
+    },
   },
 };

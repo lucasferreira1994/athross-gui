@@ -15,7 +15,7 @@
     "es": "Espanhol",
     "date": "Data",
     "search": "Buscar",
-    "search.confirmSearch": "Confirmar Busca",
+    "confirmSearch": "Confirmar Busca",
     "filter": {
       "type": "Tipo",
       "order": "Ordem",
@@ -34,6 +34,8 @@
     "advancedFilter": {
       "tooltip": "Filtro Avançado",
       "ariaLabel": "Abrir opções de filtro avançado"
-    }
+    },
+    "item": "item",
+    "items": "itens"
   }
 }

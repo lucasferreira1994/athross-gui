@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, useEffect } from "react";
 import styled, { useTheme } from "styled-components";
 import {
   TextField,
@@ -10,6 +10,8 @@ import {
   Tooltip,
   ListSubheader,
   Divider,
+  Autocomplete,
+  Chip,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterListIcon from "@mui/icons-material/FilterList";
@@ -23,7 +25,19 @@ export default function FilterArea() {
   const [selectedType, setSelectedType] = useState("");
   const [selectedOrder, setSelectedOrder] = useState("");
 
+  const [searchLabels, setSearchLabels] = useState([]);
+
   const availableTypes = ["type 1", "type 2", "type 3", "type 4"];
+
+  const availableLabels = [
+    "Label A",
+    "Label B",
+    "Label C",
+    "Product Tag",
+    "Service Name",
+    "Department ID",
+    "Another Label",
+  ];
 
   const orderOptions = [
     {
@@ -57,179 +71,119 @@ export default function FilterArea() {
     console.log("Termo de busca enviado:", searchTerm);
   };
 
+  const handleLabelsChange = (event, newValue) => {
+    setSearchLabels(newValue);
+    console.log("Labels selecionados:", newValue);
+  };
+
   const handleTypeChange = (event) => {
     setSelectedType(event.target.value);
     console.log("Tipo selecionado:", event.target.value);
   };
 
-  const handleOrderChange = (event) => {
-    console.log(
-      "Valor do Select recebido:",
-      event.target.value,
-      "Tipo:",
-      typeof event.target.value
-    );
-    setSelectedOrder(event.target.value);
-  };
-
-  const handleAdvancedFilter = () => {
-    console.log("Filtro Avançado clicado!");
-  };
-
   return (
-    <FilterContainer>
-      <SearchBox onSubmit={handleSearchSubmit}>
-        <TextField
-          placeholder={t("search")}
-          variant="standard"
-          size="small"
-          value={searchTerm}
-          onChange={handleSearchChange}
-          sx={{
-            width: "300px",
-            "& .MuiInput-underline:after": {
-              borderBottomColor: theme.colors.borderBottom, // #0295af
-            },
-          }}
-        />
-        <IconButton
-          aria-label={t("search.confirmSearch")}
-          type="submit"
-          size="small"
-          sx={{
-            borderRadius: "5px",
-          }}
-        >
-          <SearchIcon sx={{ color: theme.colors.white }} />
-        </IconButton>
-      </SearchBox>
-
-      <SearchBox>
-        {/* Select para Tipos */}
-        <FormControl
-          variant="standard"
-          size="small"
-          sx={{
-            minWidth: 120,
-            "& .MuiInput-underline:after": {
-              borderBottomColor: theme.colors.borderBottom,
-            },
-          }}
-        >
-          <Select
-            labelId="type-select-label"
-            id="type-select"
-            value={selectedType}
-            onChange={handleTypeChange}
-            displayEmpty
-            renderValue={(selected) => {
-              if (selected === "") {
-                return <em>{t("filter.type")}</em>;
-              }
-              return selected;
-            }}
-          >
-            <MenuItem value="">
-              <em>{t("filter.none")}</em>
-            </MenuItem>
-            {availableTypes.map((type) => (
-              <MenuItem key={type} value={type}>
-                {type}{" "}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        {/* Botão de Filtro Avançado 
-        <Tooltip title={t("advancedFilter.tooltip")} arrow placement="bottom">
-          <IconButton
-            aria-label={t("advancedFilter.ariaLabel")}
+    <FilterContainer onSubmit={handleSearchSubmit}>
+      <Autocomplete
+        multiple
+        limitTags={1}
+        disableCloseOnSelect
+        id="search-labels-autocomplete"
+        options={availableLabels}
+        getOptionLabel={(option) => option}
+        value={searchLabels}
+        onChange={handleLabelsChange}
+        sx={{
+          width: "300px",
+          //height: "100%",
+          "& .MuiInput-underline:after": {
+            borderBottomColor: theme.colors.borderBottom,
+          },
+        }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            variant="standard"
+            placeholder={t("search")}
+            // label={t("searchLabelsPlaceholder")}
             size="small"
-            onClick={handleAdvancedFilter}
-            sx={{
-              borderRadius: "5px",
-            }}
-          >
-            <FilterListIcon sx={{ color: theme.colors.white }} />
-          </IconButton>
-        </Tooltip>
-        */}
-      </SearchBox>
+          />
+        )}
+        renderValue={(value, getTagProps) =>
+          value.map((option, index) => (
+            <Chip
+              key={option}
+              label={option}
+              size="small"
+              {...getTagProps({ index })}
+            />
+          ))
+        }
+      />
 
-      {/* Select para Ordem com Categorias 
       <FormControl
         variant="standard"
         size="small"
         sx={{
-          minWidth: 180,
+          minWidth: 120,
           "& .MuiInput-underline:after": {
-            borderBottomColor: theme.colors.borderBottom, // Certifique-se que essa cor está definida no seu tema
+            borderBottomColor: theme.colors.borderBottom,
           },
         }}
       >
         <Select
-          labelId="order-select-label"
-          id="order-select"
-          value={selectedOrder}
-          onChange={handleOrderChange}
+          labelId="type-select-label"
+          id="type-select"
+          value={selectedType}
+          onChange={handleTypeChange}
           displayEmpty
           renderValue={(selected) => {
             if (selected === "") {
-              return <em>{t("filter.order")}</em>;
+              return <em>{t("filter.type")}</em>;
             }
-            const foundOption = orderOptions
-              .flatMap((cat) => cat.options)
-              .find((opt) => opt.value === selected);
-
-            return foundOption ? t(foundOption.labelKey) : selected;
-          }}
-          sx={{
-            "& .MuiInput-underline:after": {
-              borderBottomColor: theme.colors.primaryBlue,
-            },
+            return selected;
           }}
         >
-          <MenuItem value="" sx={{ display: "flex", justifyContent: "center" }}>
-            <em>{t("filter.none")}</em>{" "}
+          <MenuItem value="">
+            <em>{t("filter.none")}</em>
           </MenuItem>
-          {orderOptions.map((categoryGroup, index) => {
-            const itemsToRender = [
-              <Divider
-                key={`subheader-${categoryGroup.category}`}
-                sx={{ fontSize: "12px", margin: "5px 0" }}
-              >
-                {t(`filter.category.${categoryGroup.category}`)}
-              </Divider>,
-              ...categoryGroup.options.map((option) => (
-                <MenuItem
-                  key={option.value}
-                  value={option.value}
-                  sx={{ display: "flex", justifyContent: "center" }}
-                >
-                  {t(option.labelKey)}
-                </MenuItem>
-              )),
-            ];
-
-            return itemsToRender;
-          })}
+          {availableTypes.map((type) => (
+            <MenuItem key={type} value={type}>
+              {type}{" "}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
-      */}
+
+      <IconButton
+        aria-label={t("confirmSearch")}
+        type="submit"
+        size="small"
+        sx={{
+          background: "#005564",
+          borderRadius: "5px",
+          maxHeight: "34px",
+          "&:hover": {
+            background: "#00778b",
+          },
+        }}
+      >
+        <SearchIcon sx={{ color: "#FFFFFF" }} />
+      </IconButton>
     </FilterContainer>
   );
 }
 
 const FilterContainer = styled.div`
   width: 100%;
-  height: 65px;
+  padding: 10px 0;
   display: flex;
-  align-items: center;
+  align-items: top;
   gap: 22px;
 `;
 
 const SearchBox = styled.form`
   width: auto;
   display: flex;
-  align-items: center;
+  align-items: top;
   gap: 10px;
 `;

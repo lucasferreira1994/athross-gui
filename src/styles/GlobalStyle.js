@@ -1,5 +1,5 @@
 // src/styles/GlobalStyle.js
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   body {
@@ -9,8 +9,8 @@ export const GlobalStyle = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale; /* Suavização de fonte para Firefox (macOS) */
 
     /* Cores de fundo e texto padrão do tema */
-    background-color: ${props => props.theme.colors.background || '#FFFFFF'};
-    color: ${props => props.theme.colors.textColor || '#333333'};
+    background-color: ${(props) => props.theme.colors.background || "#FFFFFF"};
+    color: ${(props) => props.theme.colors.textColor || "#333333"};
     transition: background-color 0.3s ease, color 0.3s ease; /* Transição suave ao mudar o tema */
   }
 
@@ -19,12 +19,12 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Inter', sans-serif; 
     font-weight: 700; 
     line-height: 1.2;
-    color: ${props => props.theme.colors.textColor || '#333333'};
+    color: ${(props) => props.theme.colors.textColor || "#333333"};
   }
 
   /* Estilos para links */
   a {
-    color: ${props => props.theme.colors.primary || '#007bff'};
+    color: ${(props) => props.theme.colors.primary || "#007bff"};
     &:hover {
       text-decoration: underline;
     }
@@ -32,24 +32,6 @@ export const GlobalStyle = createGlobalStyle`
 
   /* Seleção de texto */
   ::selection {
-    background: ${props => props.theme.colors.primary || '#007bff'};
-    color: ${props => props.theme.colors.white || '#FFFFFF'};
-  }
-
-  /* Scrollbar customizada */
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-  ::-webkit-scrollbar-track {
-    background: ${props => props.theme.colors.surface || '#f1f1f1'};
-    border-radius: 10px;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: ${props => props.theme.colors.primary || '#888'};
-    border-radius: 10px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: ${props => props.theme.colors.primary || '#555'};
+    
   }
 `;
