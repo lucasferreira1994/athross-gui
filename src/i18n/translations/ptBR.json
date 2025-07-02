@@ -36,6 +36,8 @@
       "ariaLabel": "Abrir opções de filtro avançado"
     },
     "item": "item",
-    "items": "itens"
+    "items": "itens",
+    "rememberMe": "Lembrar-me",
+    "errorSend": "Desculpe, ocorreu um erro."
   }
 }

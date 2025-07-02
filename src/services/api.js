@@ -1,4 +1,6 @@
 import axios from "axios";
+import users from "./routes/users";
+import docs from "./routes/docs";
 
 const getBaseUrl = () => {
   const devUrl = import.meta.env.VITE_API_URL;
@@ -19,32 +21,18 @@ const getBaseUrl = () => {
 
 const URL = getBaseUrl();
 
-function createConfig(token) {
+export function getConfig() {
+  const token = JSON.parse(sessionStorage.getItem("access"));
   return { headers: { Authorization: `Bearer ${token}` } };
 }
 
-function getConfig() {
-  const token = JSON.parse(sessionStorage.getItem("access"));
-  const config = createConfig(token);
-  return config;
-}
-
-const apiRef = axios.create({
+export const apiRef = axios.create({
   baseURL: URL,
 });
 
-async function signIn(body) {
-  try {
-    const response = await apiRef.post(`/api/v2/login`, body);
-    return response.data;
-  } catch (error) {
-    console.error("Error: ", error);
-    throw error;
-  }
-}
-
 const api = {
-  signIn,
+  users,
+  docs,
 };
 
 export default api;

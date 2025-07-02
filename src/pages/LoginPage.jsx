@@ -1,6 +1,8 @@
 import {
   Button,
+  Checkbox,
   CircularProgress,
+  FormControlLabel,
   IconButton,
   InputAdornment,
   TextField,
@@ -9,12 +11,17 @@ import PersonIcon from "@mui/icons-material/Person";
 import LockPersonIcon from "@mui/icons-material/LockPerson";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import api from "../services/api";
+import { useNavigate } from "react-router-dom";
+import { Slide, toast, ToastContainer } from "react-toastify";
 
 export default function LoginPage() {
   const { t } = useTranslation();
+  const theme = useTheme();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -44,19 +51,20 @@ export default function LoginPage() {
   };
 
   const [loginInfo, setLoginInfo] = useState({
-    username: "",
+    email: "",
     password: "",
+    remember: false,
   });
 
   const [validationErrors, setValidationErrors] = useState({
-    username: false,
+    email: false,
     password: false,
   });
 
   const validateUser = (info) => {
     const errors = {};
-    if (!info.username) {
-      errors.username = true;
+    if (!info.email) {
+      errors.email = true;
     }
     if (!info.password) {
       errors.password = true;
@@ -64,18 +72,25 @@ export default function LoginPage() {
     return errors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const errors = validateUser(loginInfo);
-    if (errors.username || errors.password) {
+    if (errors.email || errors.password) {
       setValidationErrors(errors);
       return;
     }
-    setLoading(true);
-    console.log(loginInfo);
-    setTimeout(() => {
+
+    try {
+      const data = await api.users.signIn(loginInfo);
+      console.log(data);
+      navigate("/documents");
+    } catch (error) {
+      toast.error(error?.message || error?.detail || t("errorSend"));
+      console.log(error);
+    } finally {
       setLoading(false);
-    }, 2000);
+    }
   };
 
   return (
@@ -83,17 +98,18 @@ export default function LoginPage() {
       <FormContainer onSubmit={handleSubmit}>
         <h1>ATHROSS</h1>
         <TextField
-          id="username"
-          placeholder={t("username")}
+          id="email"
+          placeholder="Email"
           variant="outlined"
           margin="normal"
           size="small"
+          disabled={loading}
           sx={sxStyle}
-          value={loginInfo.username}
-          error={validationErrors.username}
+          value={loginInfo.email}
+          error={validationErrors.email}
           onChange={(e) => {
-            setLoginInfo({ ...loginInfo, username: e.target.value });
-            setValidationErrors({ ...validationErrors, username: false });
+            setLoginInfo({ ...loginInfo, email: e.target.value });
+            setValidationErrors({ ...validationErrors, email: false });
           }}
           slotProps={{
             input: {
@@ -111,6 +127,7 @@ export default function LoginPage() {
           variant="outlined"
           margin="normal"
           size="small"
+          disabled={loading}
           sx={sxStyle}
           value={loginInfo.password}
           error={validationErrors.password}
@@ -140,10 +157,39 @@ export default function LoginPage() {
             },
           }}
         />
+        <div className="remember">
+          <FormControlLabel
+            control={
+              <Checkbox
+                id="remember-me"
+                checked={loginInfo.remember}
+                disabled={loading}
+                size="small"
+                onChange={(e) => {
+                  setLoginInfo({ ...loginInfo, remember: e.target.checked });
+                }}
+                sx={{
+                  color: "#ffffff",
+                  "&.Mui-checked": {
+                    color: "#ffffff",
+                  },
+                }}
+              />
+            }
+            label={t("rememberMe")}
+            sx={{
+              "& .MuiFormControlLabel-label": {
+                color: "#ffffff",
+                fontSize: "13px",
+              },
+            }}
+          />
+        </div>
         <Button
           variant="contained"
           size="small"
           type="submit"
+          disabled={loading}
           sx={{
             backgroundColor: "#FFFFFF",
             color: "#01404b",
@@ -155,13 +201,27 @@ export default function LoginPage() {
             boxShadow: "none",
             textTransform: "none",
             width: "50%",
-            marginTop: "26px",
+            marginTop: "18px",
             height: "30px",
           }}
         >
           {!loading ? "LOGIN" : <CircularProgress size="21px" color="info" />}
         </Button>
       </FormContainer>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={2500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme={theme.mode}
+        transition={Slide}
+      />
     </PageContainer>
   );
 }
@@ -183,5 +243,11 @@ const FormContainer = styled.form`
   h1 {
     color: #ffffff;
     margin-bottom: 10px;
+  }
+  .remember {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
   }
 `;
