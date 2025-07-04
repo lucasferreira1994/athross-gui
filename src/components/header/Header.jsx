@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
 
 export default function Header({ setTheme }) {
   const { t } = useTranslation();
@@ -35,6 +36,19 @@ export default function Header({ setTheme }) {
   const logout = () => {
     navigate("/");
   };
+
+  const getUserData = async () => {
+    try {
+      const data = await api.users.getUser();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    //getUserData();
+  }, []);
 
   return (
     <HeaderContainer>

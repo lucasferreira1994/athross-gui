@@ -21,12 +21,12 @@ const getBaseUrl = () => {
 
 const URL = getBaseUrl();
 
-export function getConfig() {
-  const token = JSON.parse(sessionStorage.getItem("access"));
-  return { headers: { Authorization: `Bearer ${token}` } };
-}
-
 export const apiRef = axios.create({
+  baseURL: URL,
+  withCredentials: true,
+});
+
+export const apiAuthRef = axios.create({
   baseURL: URL,
 });
 

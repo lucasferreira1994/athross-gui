@@ -12,7 +12,7 @@ import LockPersonIcon from "@mui/icons-material/LockPerson";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import styled, { useTheme } from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import api from "../services/api";
 import { useNavigate } from "react-router-dom";
@@ -86,10 +86,25 @@ export default function LoginPage() {
       console.log(data);
       navigate("/documents");
     } catch (error) {
-      toast.error(error?.message || error?.detail || t("errorSend"));
+      toast.error(
+        error?.response?.data?.detail || error?.message || t("errorSend")
+      );
       console.log(error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    //getUserData();
+  }, []);
+
+  const getUserData = async () => {
+    try {
+      const data = await api.users.getUser();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
     }
   };
 

@@ -18,6 +18,7 @@
     "confirmSearch": "Confirmar Búsqueda",
     "filter": {
       "type": "Tipo",
+      "types": "Tipos",
       "order": "Orden",
       "none": "Ninguno",
       "category": {
@@ -38,6 +39,8 @@
     "item": "item",
     "items": "items",
     "rememberMe": "Recuerdame",
-    "errorSend": "Disculpe, ocurrió un error."
+    "errorSend": "Disculpe, ocurrió un error.",
+    "numberOfColumns": "Nº de columnas",
+    "noDocumentsFound": "No se encontraron documentos"
   }
 }

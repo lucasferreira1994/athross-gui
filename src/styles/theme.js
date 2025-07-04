@@ -59,6 +59,9 @@ export const lightTheme = {
       secondary: "#6f6f6f",
       downButton: "#e5e5e5",
       label: "#000000",
+      scrollbar: "rgba(0, 0, 0, 0.2)",
+      scrollBack: "#f1f1f1",
+      scrollHover: "rgba(0, 0, 0, 0.4)",
     },
   },
 };
@@ -110,6 +113,9 @@ export const darkTheme = {
       secondary: "#bdbdbd",
       downButton: "#1A1A1A",
       label: "#adadad",
+      scrollbar: "rgba(204, 204, 204, 0.2)",
+      scrollBack: "#1a222e",
+      scrollHover: "rgba(255, 255, 255, 0.4)",
     },
   },
 };

@@ -8,6 +8,8 @@ import {
   ListItemText,
   Divider,
   IconButton,
+  ToggleButton,
+  ToggleButtonGroup,
 } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
@@ -20,10 +22,12 @@ import ES from "../../assets/spain.png";
 
 import { useTranslation } from "react-i18next";
 import { useTheme } from "styled-components";
+import useAuth from "../../hooks/useAuth";
 
 export default function Settings({ open, setOpen, setTheme }) {
   const theme = useTheme();
   const { t, i18n } = useTranslation();
+  const { numOfColumns, setNumOfColumns } = useAuth();
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -40,6 +44,12 @@ export default function Settings({ open, setOpen, setTheme }) {
     ptBR: BR,
     en: EN,
     es: ES,
+  };
+
+  const handleColumnsToggleChange = (event, newSelection) => {
+    if (newSelection !== null) {
+      setNumOfColumns(newSelection);
+    }
   };
 
   const drawerContent = (
@@ -175,6 +185,29 @@ export default function Settings({ open, setOpen, setTheme }) {
           </ListItemButton>
         </ListItem>
       </List>
+      <Divider>{t("numberOfColumns")}</Divider>
+      <div style={{ padding: "16px 25px 20px" }}>
+        <ToggleButtonGroup
+          value={numOfColumns}
+          exclusive
+          size="small"
+          onChange={handleColumnsToggleChange}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "100%",
+            "& .MuiToggleButton-root": {
+              flexGrow: 1,
+            },
+          }}
+        >
+          <ToggleButton value={1}>1</ToggleButton>
+          <ToggleButton value={2}>2</ToggleButton>
+          <ToggleButton value={3}>3</ToggleButton>
+          <ToggleButton value={4}>4</ToggleButton>
+          <ToggleButton value={5}>5</ToggleButton>
+        </ToggleButtonGroup>
+      </div>
       <Divider sx={{ borderColor: theme.colors.borderColor }} />
       <Box sx={{ padding: "16px", flexGrow: 1 }}></Box>
     </Box>

@@ -1,85 +1,55 @@
 import { useState, useEffect } from "react";
 import styled, { useTheme } from "styled-components";
-import {
-  TextField,
-  IconButton,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Tooltip,
-  ListSubheader,
-  Divider,
-  Autocomplete,
-  Chip,
-} from "@mui/material";
+import { TextField, IconButton, Autocomplete, Chip } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import FilterListIcon from "@mui/icons-material/FilterList";
 import { useTranslation } from "react-i18next";
+import api from "../../services/api";
 
 export default function FilterArea() {
   const { t } = useTranslation();
   const theme = useTheme();
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedType, setSelectedType] = useState("");
-  const [selectedOrder, setSelectedOrder] = useState("");
+  const [searchTerm, setSearchTerm] = useState([]);
+  const [selectedTypes, setSelectedTypes] = useState([]);
 
   const [searchLabels, setSearchLabels] = useState([]);
 
-  const availableTypes = ["type 1", "type 2", "type 3", "type 4"];
-
-  const availableLabels = [
-    "Label A",
-    "Label B",
-    "Label C",
-    "Product Tag",
-    "Service Name",
-    "Department ID",
-    "Another Label",
-  ];
-
-  const orderOptions = [
-    {
-      category: "creationDate",
-      options: [
-        {
-          value: "oldestToNewest",
-          labelKey: "filter.orderTypes.oldestToNewest",
-        },
-        {
-          value: "newestToOldest",
-          labelKey: "filter.orderTypes.newestToOldest",
-        },
-      ],
-    },
-    {
-      category: "alphabeticalOrder",
-      options: [
-        { value: "aToZ", labelKey: "filter.orderTypes.aToZ" },
-        { value: "zToA", labelKey: "filter.orderTypes.zToA" },
-      ],
-    },
-  ];
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
+  const [availableLabels, setAvailableLabels] = useState([]);
+  const [availableTypes, setAvailableTypes] = useState([]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    console.log("Termo de busca enviado:", searchTerm);
   };
 
   const handleLabelsChange = (event, newValue) => {
     setSearchLabels(newValue);
-    console.log("Labels selecionados:", newValue);
   };
 
   const handleTypeChange = (event) => {
-    setSelectedType(event.target.value);
-    console.log("Tipo selecionado:", event.target.value);
+    setSelectedTypes(event, newValue);
   };
+
+  const getAllTypes = async () => {
+    try {
+      const data = await api.docs.listAllTypes();
+      setAvailableTypes(data.items);
+    } catch (error) {
+    }
+  };
+
+  const getAllLabels = async () => {
+    try {
+      const data = await api.docs.listAllLabels();
+      const labels = data.map((label) => label.value);
+      setAvailableLabels(labels);
+    } catch (error) {
+    }
+  };
+
+  useEffect(() => {
+    getAllTypes();
+    getAllLabels();
+  }, []);
 
   return (
     <FilterContainer onSubmit={handleSearchSubmit}>
@@ -94,7 +64,6 @@ export default function FilterArea() {
         onChange={handleLabelsChange}
         sx={{
           width: "300px",
-          //height: "100%",
           "& .MuiInput-underline:after": {
             borderBottomColor: theme.colors.borderBottom,
           },
@@ -120,39 +89,40 @@ export default function FilterArea() {
         }
       />
 
-      <FormControl
-        variant="standard"
-        size="small"
+      <Autocomplete
+        multiple
+        limitTags={1}
+        disableCloseOnSelect
+        id="search-types-autocomplete"
+        options={availableTypes}
+        getOptionLabel={(option) => option.name}
+        value={selectedTypes}
+        onChange={(event, newValue) => setSelectedTypes(newValue)}
         sx={{
-          minWidth: 120,
+          width: 200,
           "& .MuiInput-underline:after": {
             borderBottomColor: theme.colors.borderBottom,
           },
         }}
-      >
-        <Select
-          labelId="type-select-label"
-          id="type-select"
-          value={selectedType}
-          onChange={handleTypeChange}
-          displayEmpty
-          renderValue={(selected) => {
-            if (selected === "") {
-              return <em>{t("filter.type")}</em>;
-            }
-            return selected;
-          }}
-        >
-          <MenuItem value="">
-            <em>{t("filter.none")}</em>
-          </MenuItem>
-          {availableTypes.map((type) => (
-            <MenuItem key={type} value={type}>
-              {type}{" "}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            variant="standard"
+            placeholder={t("filter.types")}
+            size="small"
+          />
+        )}
+        renderValue={(value, getTagProps) =>
+          value.map((option, index) => (
+            <Chip
+              key={option.id}
+              label={option.name}
+              size="small"
+              {...getTagProps({ index })}
+            />
+          ))
+        }
+      />
 
       <IconButton
         aria-label={t("confirmSearch")}
