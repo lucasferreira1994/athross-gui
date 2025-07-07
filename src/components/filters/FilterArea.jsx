@@ -1,49 +1,48 @@
 import { useState, useEffect } from "react";
 import styled, { useTheme } from "styled-components";
-import { TextField, IconButton, Autocomplete, Chip } from "@mui/material";
+import {
+  TextField,
+  IconButton,
+  Autocomplete,
+  Chip,
+  Tooltip,
+} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useTranslation } from "react-i18next";
 import api from "../../services/api";
 
-export default function FilterArea() {
+export default function FilterArea({ setLabels, setTypes }) {
   const { t } = useTranslation();
   const theme = useTheme();
-
-  const [searchTerm, setSearchTerm] = useState([]);
-  const [selectedTypes, setSelectedTypes] = useState([]);
-
-  const [searchLabels, setSearchLabels] = useState([]);
 
   const [availableLabels, setAvailableLabels] = useState([]);
   const [availableTypes, setAvailableTypes] = useState([]);
 
+  const [selectedLabels, setSelectedLabels] = useState([]);
+  const [selectedTypes, setSelectedTypes] = useState([]);
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-  };
-
-  const handleLabelsChange = (event, newValue) => {
-    setSearchLabels(newValue);
-  };
-
-  const handleTypeChange = (event) => {
-    setSelectedTypes(event, newValue);
   };
 
   const getAllTypes = async () => {
     try {
       const data = await api.docs.listAllTypes();
       setAvailableTypes(data.items);
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const getAllLabels = async () => {
     try {
       const data = await api.docs.listAllLabels();
-      const labels = data.map((label) => label.value);
+      const labels = data.map((label, index) => {
+        return {
+          ...label,
+          id: index,
+        };
+      });
       setAvailableLabels(labels);
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -59,9 +58,10 @@ export default function FilterArea() {
         disableCloseOnSelect
         id="search-labels-autocomplete"
         options={availableLabels}
-        getOptionLabel={(option) => option}
-        value={searchLabels}
-        onChange={handleLabelsChange}
+        getOptionLabel={(option) => option.value}
+        getOptionKey={(option) => option.id}
+        value={selectedLabels}
+        onChange={(event, newValue) => setSelectedLabels(newValue)}
         sx={{
           width: "300px",
           "& .MuiInput-underline:after": {
@@ -73,15 +73,14 @@ export default function FilterArea() {
             {...params}
             variant="standard"
             placeholder={t("search")}
-            // label={t("searchLabelsPlaceholder")}
             size="small"
           />
         )}
         renderValue={(value, getTagProps) =>
           value.map((option, index) => (
             <Chip
-              key={option}
-              label={option}
+              key={option.id}
+              label={option.value}
               size="small"
               {...getTagProps({ index })}
             />
@@ -96,6 +95,7 @@ export default function FilterArea() {
         id="search-types-autocomplete"
         options={availableTypes}
         getOptionLabel={(option) => option.name}
+        getOptionKey={(option) => option.id}
         value={selectedTypes}
         onChange={(event, newValue) => setSelectedTypes(newValue)}
         sx={{
@@ -124,21 +124,27 @@ export default function FilterArea() {
         }
       />
 
-      <IconButton
-        aria-label={t("confirmSearch")}
-        type="submit"
-        size="small"
-        sx={{
-          background: "#005564",
-          borderRadius: "5px",
-          maxHeight: "34px",
-          "&:hover": {
-            background: "#00778b",
-          },
-        }}
-      >
-        <SearchIcon sx={{ color: "#FFFFFF" }} />
-      </IconButton>
+      <Tooltip title={t("confirmSearch")} arrow>
+        <IconButton
+          aria-label={t("confirmSearch")}
+          type="submit"
+          size="small"
+          sx={{
+            background: "#005564",
+            borderRadius: "5px",
+            maxHeight: "34px",
+            "&:hover": {
+              background: "#00778b",
+            },
+          }}
+          onClick={() => {
+            setLabels(selectedLabels);
+            setTypes(selectedTypes);
+          }}
+        >
+          <SearchIcon sx={{ color: "#FFFFFF" }} />
+        </IconButton>
+      </Tooltip>
     </FilterContainer>
   );
 }

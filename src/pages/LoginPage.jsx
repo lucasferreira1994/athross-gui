@@ -85,13 +85,11 @@ export default function LoginPage() {
 
     try {
       const data = await api.users.signIn(loginInfo);
-      console.log(data);
       navigate("/documents");
     } catch (error) {
       toast.error(
         error?.response?.data?.detail || error?.message || t("errorSend")
       );
-      console.log(error);
     } finally {
       setLoading(false);
     }
