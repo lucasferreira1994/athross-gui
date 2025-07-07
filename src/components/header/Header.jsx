@@ -6,10 +6,12 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
+import useAuth from "../../hooks/useAuth";
 
 export default function Header({ setTheme }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { signUp, username, logout } = useAuth();
 
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   useEffect(() => {
@@ -33,28 +35,29 @@ export default function Header({ setTheme }) {
 
   const [openConfig, setOpenConfig] = useState(false);
 
-  const logout = () => {
+  const logoutFunction = () => {
+    logout();
     navigate("/");
   };
 
   const getUserData = async () => {
     try {
       const data = await api.users.getUser();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
+      signUp(data.username);
+    } catch (error) {}
   };
 
   useEffect(() => {
-    //getUserData();
+    getUserData();
   }, []);
 
   return (
     <HeaderContainer>
       <UserContent>
         <div id="user">
-          <p>{t("username")}: Admin**</p>
+          <p>
+            {t("username")}: {username || t("notFound")}
+          </p>
         </div>
         <div id="time">
           <p>
@@ -68,7 +71,7 @@ export default function Header({ setTheme }) {
             color: "#ffffff",
             cursor: "pointer",
           }}
-          onClick={logout}
+          onClick={logoutFunction}
         />
         <SettingsIcon
           sx={{

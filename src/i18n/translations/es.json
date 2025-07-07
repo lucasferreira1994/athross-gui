@@ -41,6 +41,7 @@
     "rememberMe": "Recuerdame",
     "errorSend": "Disculpe, ocurrió un error.",
     "numberOfColumns": "Nº de columnas",
-    "noDocumentsFound": "No se encontraron documentos"
+    "noDocumentsFound": "No se encontraron documentos",
+    "notFound": "No Encontrado"
   }
 }

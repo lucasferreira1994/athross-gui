@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import api from "../services/api";
 import { useNavigate } from "react-router-dom";
 import { Slide, toast, ToastContainer } from "react-toastify";
+import useAuth from "../hooks/useAuth";
 
 export default function LoginPage() {
   const { t } = useTranslation();
@@ -24,6 +25,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { signUp, exit } = useAuth();
 
   const sxStyle = {
     width: "100%",
@@ -96,15 +98,17 @@ export default function LoginPage() {
   };
 
   useEffect(() => {
-    //getUserData();
-  }, []);
+    if (!exit) {
+      getUserData();
+    }
+  }, [exit]);
 
   const getUserData = async () => {
     try {
       const data = await api.users.getUser();
-      console.log(data);
+      signUp(data.username);
+      navigate("/documents");
     } catch (error) {
-      console.log(error);
     }
   };
 

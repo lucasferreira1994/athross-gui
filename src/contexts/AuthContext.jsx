@@ -3,23 +3,20 @@ import { createContext, useState } from "react";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const persistedAccess = JSON.parse(localStorage.getItem("access"));
-  const persistedRefresh = JSON.parse(localStorage.getItem("refresh"));
+  const persistedUsername = JSON.parse(localStorage.getItem("username"));
 
-  const [access, setAccess] = useState(persistedAccess);
-  const [refresh, setRefresh] = useState(persistedRefresh);
+  const [username, setUsername] = useState(persistedUsername);
+  const [exit, setExit] = useState(false);
 
-  function signUp({ access, refresh }) {
-    setAccess(access);
-    localStorage.setItem("access", JSON.stringify(access));
-    setRefresh(refresh);
-    localStorage.setItem("refresh", JSON.stringify(refresh));
+  function signUp(username) {
+    setUsername(username);
+    localStorage.setItem("username", JSON.stringify(username));
+    setExit(false);
   }
   function logout() {
-    setAccess("");
-    setRefresh("");
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
+    setUsername("");
+    localStorage.removeItem("username");
+    setExit(true);
   }
 
   const [numOfColumns, setNumOfColumns] = useState(4);
@@ -27,12 +24,12 @@ export function AuthProvider({ children }) {
   return (
     <AuthContext.Provider
       value={{
-        access,
-        refresh,
-        signUp,
-        logout,
+        username,
+        exit,
         numOfColumns,
         setNumOfColumns,
+        signUp,
+        logout,
       }}
     >
       {children}
